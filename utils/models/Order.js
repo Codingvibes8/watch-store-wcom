@@ -1,104 +1,75 @@
 import mongoose from "mongoose";
 
-const productSchema = new mongoose.Schema(
+const orderSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: [true, "Please provide a name"],
+            required: [true, "Please provide the customer's full name"],
         },
-        description: {
+        email: {
             type: String,
+            required: [true, "Please provide the customer's email"],
         },
-        images: [{ type: String }],
-        price: {
+        city: {
+            type: String,
+            required: [true, "Please provide the city"],
+        },
+        postalCode: {
+            type: String,
+            required: [true, "Please provide the postal code"],
+        },
+        streetAddress: {
+            // Changed from streetAdress to streetAddress
+            type: String,
+            required: [true, "Please provide the customer's address"],
+        },
+        country: {
+            type: String,
+            required: [true, "Please provide the country"],
+        },
+        paid: {
+            type: Boolean,
+            default: false,
+        },
+        cartProducts: [
+            {
+                product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+                quantity: Number,
+                price: Number,
+            },
+        ],
+        updatedAt: {
+            type: Date,
+            default: Date.now,
+        },
+        status: {
+            type: String,
+            enum: [
+                "pending",
+                "processing",
+                "shipped",
+                "delivered",
+                "cancelled",
+                "payment_failed",
+            ],
+            default: "pending",
+        },
+        total: {
             type: Number,
-        },
-        originalPrice: {
-            type: Number,
-        },
-        brand: {
-            type: String,
-        },
-        material: {
-            type: String,
-        },
-        bracelet: {
-            type: String,
-        },
-        condition: {
-            type: String,
+            required: [true, "Total order amount is required"],
         },
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
-        reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
-        averageRating: { type: Number, default: 0 },
-        numReviews: { type: Number, default: 0 },
-        featured: {
-            type: Boolean,
-            default: false,
-        },
-        movement: {
-            type: String,
-            enum: [
-                "Rolex 3235 Automatik Movement",
-                "Rolex 3225 Automatik Movement",
-                "Rolex 3245 Automatik Movement",
-                "Rolex 3265 Automatik Movement",
-                "Patek Philipe 5711 Automatik Movement",
-                "Patek Philipe 5712G Automatik Movement",
-                "Audemars Piguet 412513 Automatik Movement",
-                "Audemars Piguet 414221 Automatik Movement",
-            ],
-            default: "Rolex 3235 Automatik Movement",
-        },
-
-        glass: {
-            type: String,
-            default: "Saphire Glass",
-        },
-        luminova: {
-            type: String,
-            default: "Yes",
-        },
-        thickness: {
-            type: String,
-            default: "12mm",
-        },
-        casematerial: {
-            type: String,
-            enum: ["316L Stainless Steel", "904L Stainless Steel"],
-            default: "316L Stainless Steel",
-        },
-        crown: {
-            type: String,
-            default: "Screwed",
-        },
-        bandsize: {
-            type: String,
-            default: "14.5cm - 22.5cm adjustable",
-        },
-        lugs: {
-            type: String,
-            default: "20mm",
-        },
-        water: {
-            type: String,
-            default: "3 ATM",
+        createdAt: {
+            type: Date,
+            default: Date.now,
         },
     },
     { timestamps: true }
 );
 
-productSchema.methods.hasUserPurchased = async function (userId){
-    const Order = mongoose.model("Order");
-    const order = await Order.findOne({
-        user: userId,
-        cartProducts: this._id,
-        status: "delivered",
-        paid: true,
-    }); return !!order;
-}
+const Order = mongoose.models.Order || mongoose.model("Order", orderSchema);
 
-export const Product = mongoose.models.Product || mongoose.model("Product", productSchema);
+export default Order;

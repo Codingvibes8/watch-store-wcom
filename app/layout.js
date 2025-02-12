@@ -1,6 +1,6 @@
 import { Inter, Poppins,  Playfair_Display } from "next/font/google";
 import "./globals.css";
-//import AuthProvider from "@/components/AuthProvider";
+import AuthProviders from "@/components/AuthProviders";
 //import Navbar from "@/components/Navbar/Navbar";
 //import Footer from "@/components/Footer/Footer";
 
@@ -21,9 +21,9 @@ export default function RootLayout({ children }) {
               suppressContentEditableWarning
               suppressHydrationWarning>
 
-
+           <AuthProviders>
             {children}
-
+         </AuthProviders>
         </body>
         </html>
     );
@@ -32,4 +32,4 @@ export default function RootLayout({ children }) {
 // <Navbar/>
 // <Footer/>
 //
-// <AuthProvider></AuthProvider>
+// 
