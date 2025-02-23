@@ -2,7 +2,7 @@ import { Inter, Poppins,  Playfair_Display } from "next/font/google";
 import "./globals.css";
 import AuthProviders from "@/components/AuthProviders";
 //import Navbar from "@/components/Navbar/Navbar";
-//import Footer from "@/components/Footer/Footer";
+import Footer from "@/components/Footer/Footer";
 
 //const mulsih = Mulish({ subsets: ["latin"] });
 //const inter = Inter({ subsets: ["latin"] });
@@ -23,6 +23,7 @@ export default function RootLayout({ children }) {
 
            <AuthProviders>
             {children}
+               <Footer/>
          </AuthProviders>
         </body>
         </html>

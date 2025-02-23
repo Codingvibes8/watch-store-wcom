@@ -1,5 +1,8 @@
+import {Button} from '@/components/ui/button'
+
 const dashboard= () => {
-    return(<h1>signout</h1>
+    return(
+        <Button >signout</Button>
 )
 }
 export default dashboard;
